@@ -33,8 +33,18 @@ function shallowCopy(obj) {
  *    mergeObjects([{a: 1, b: 2}, {b: 3, c: 5}]) => {a: 1, b: 5, c: 5}
  *    mergeObjects([]) => {}
  */
-function mergeObjects(/* objects */) {
-  throw new Error('Not implemented');
+function mergeObjects(objects) {
+  const result = {};
+  objects.forEach((object) => {
+    Object.keys(object).forEach((key) => {
+      if (result[key]) {
+        result[key] += object[key];
+      } else {
+        result[key] = object[key];
+      }
+    });
+  });
+  return result;
 }
 
 /**
@@ -50,8 +60,10 @@ function mergeObjects(/* objects */) {
  *    removeProperties({name: 'John', age: 30, city: 'New York'}, 'age') => {name: 'John', city: 'New York'}
  *
  */
-function removeProperties(/* obj, keys */) {
-  throw new Error('Not implemented');
+function removeProperties(obj, keys) {
+  const object = { ...obj };
+  keys.forEach((key) => delete object[key]);
+  return object;
 }
 
 /**
@@ -115,8 +127,19 @@ function makeImmutable(obj) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  const keys = Object.keys(lettersObject);
+  const indexes = Object.values(lettersObject);
+  const res = [];
+
+  indexes.forEach((indArr, i) => {
+    const key = keys[i];
+    indArr.forEach((ind) => {
+      res[ind] = key;
+    });
+  });
+
+  return res.join('');
 }
 
 /**
@@ -133,8 +156,18 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  const lastInd = queue.length - 1;
+  let sum = 0;
+  let cash = 0;
+  queue.forEach((item, i) => {
+    cash = item;
+    if (i === lastInd) {
+      return;
+    }
+    sum += item;
+  });
+  return sum >= cash;
 }
 
 /**
